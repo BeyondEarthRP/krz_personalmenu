@@ -2082,9 +2082,26 @@ function GeneratePersonalMenu(playerGroup)
 	_menuPool:RefreshIndex()
 end
 
+local keypressTimer
+keypressTimer = 0
 Citizen.CreateThread(function()
 	while true do
-		if IsControlJustReleased(0, Config.Menu.clavier) and not isDead then
+		--This bit was added by Jay (hold BACK on gamepad for 2ish seconds to open the menu)
+		if IsControlJustPressed(0, Config.Menu.clavier) and not isDead then
+			keypressTimer = 0
+			print("starting")
+			while IsControlPressed(0, Config.Menu.clavier) do
+				Citizen.Wait(5)
+                                keypressTimer = keypressTimer + 5
+                                print(keypressTimer)
+				if keypressTimer > 200 then
+					break
+				end		
+			end
+		end
+		print(keypressTimer .. " moving on...")
+
+		if IsControlJustReleased(0, Config.Menu.clavier) and not isDead and keypressTimer > 200 then
 			if mainMenu ~= nil and not mainMenu:Visible() then
 				ESX.TriggerServerCallback('KorioZ-PersonalMenu:Admin_getUsergroup', function(playerGroup)
 					ESX.PlayerData = ESX.GetPlayerData()
