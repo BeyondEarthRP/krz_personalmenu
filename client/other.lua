@@ -31,13 +31,13 @@ Citizen.CreateThread(function()
 			local plyPed = PlayerPedId()
 			if (DoesEntityExist(plyPed)) and (not IsEntityDead(plyPed)) and (IsPedOnFoot(plyPed)) then
 				crouched = not crouched
-				if crouched then 
+				if crouched then
 					RequestAnimSet('move_ped_crouched')
-		
+
 					while not HasAnimSetLoaded('move_ped_crouched') do
 						Citizen.Wait(10)
 					end
-		
+
 					SetPedMovementClipset(plyPed, 'move_ped_crouched', 0.25)
 				else
 					ResetPedMovementClipset(plyPed, 0)
