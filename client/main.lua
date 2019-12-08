@@ -200,7 +200,7 @@ function admin_tp_toplayer()
 
 	if plyId ~= nil then
 		plyId = tonumber(plyId)
-		
+
 		if type(plyId) == 'number' then
 			local targetPlyCoords = GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(plyId)))
 			SetEntityCoords(plyPed, targetPlyCoords)
@@ -214,7 +214,7 @@ function admin_tp_playertome()
 
 	if plyId ~= nil then
 		plyId = tonumber(plyId)
-		
+
 		if type(plyId) == 'number' then
 			local plyPedCoords = GetEntityCoords(plyPed)
 			TriggerServerEvent('KorioZ-PersonalMenu:Admin_BringS', plyId, plyPedCoords)
@@ -228,14 +228,14 @@ function admin_tp_pos()
 
 	if pos ~= nil and pos ~= '' then
 		local _, _, x, y, z = string.find(pos, '([%d%.]+) ([%d%.]+) ([%d%.]+)')
-				
+
 		if x ~= nil and y ~= nil and z ~= nil then
 			SetEntityCoords(plyPed, x + .0, y + .0, z + .0)
 		end
 	end
 end
 
--- NOCLIP 
+-- NOCLIP
 function admin_no_clip()
 	noclip = not noclip
 
@@ -416,7 +416,7 @@ function admin_heal_player()
 
 	if plyId ~= nil then
 		plyId = tonumber(plyId)
-		
+
 		if type(plyId) == 'number' then
 			TriggerServerEvent('esx_ambulancejob:revive', plyId)
 		end
@@ -478,7 +478,7 @@ function AddMenuInventoryMenu(menu)
 			for i = 1, count, 1 do
 				table.insert(invCount, i)
 			end
-			
+
 			table.insert(invItem, value)
 
 			invItem[value] = NativeUI.CreateListItem(label .. ' (' .. count .. ')', invCount, 1)
@@ -2082,26 +2082,29 @@ function GeneratePersonalMenu(playerGroup)
 	_menuPool:RefreshIndex()
 end
 
-local keypressTimer
-keypressTimer = 0
+------------------------------------------------------------------------------------------
+--This bit was added by Jay (hold BACK on gamepad for 2ish seconds to open the menu)
+-------------------------------------------------------------------------------------------
+local keypressTimer = 0 -- don't change this... it needs to start at 0
+local keypressThreshold = 200 -- each 100 is about 1 second ... 200 = ~2 Seconds
+-----------------------------
 Citizen.CreateThread(function()
+----------------------------- continuing jay's changes ------------------------------------
 	while true do
-		--This bit was added by Jay (hold BACK on gamepad for 2ish seconds to open the menu)
-		if IsControlJustPressed(0, Config.Menu.clavier) and not isDead then
+	  if IsControlJustPressed(0, Config.Menu.clavier) and not isDead then
 			keypressTimer = 0
-			print("starting")
 			while IsControlPressed(0, Config.Menu.clavier) do
 				Citizen.Wait(5)
-                                keypressTimer = keypressTimer + 5
-                                print(keypressTimer)
-				if keypressTimer > 200 then
+        keypressTimer = keypressTimer + 5
+				if keypressTimer > keypressThreshold then
 					break
-				end		
+				end
 			end
-		end
-		print(keypressTimer .. " moving on...")
+	  end
 
-		if IsControlJustReleased(0, Config.Menu.clavier) and not isDead and keypressTimer > 200 then
+    -- you need to check for it here: keypressTimer > keypressThreshold
+		if IsControlJustReleased(0, Config.Menu.clavier) and not isDead and keypressTimer > keypressThreshold then
+------------------------------------------------------------------------------------------
 			if mainMenu ~= nil and not mainMenu:Visible() then
 				ESX.TriggerServerCallback('KorioZ-PersonalMenu:Admin_getUsergroup', function(playerGroup)
 					ESX.PlayerData = ESX.GetPlayerData()
@@ -2111,7 +2114,7 @@ Citizen.CreateThread(function()
 				end)
 			end
 		end
-		
+
 		Citizen.Wait(0)
 	end
 end)
@@ -2121,7 +2124,7 @@ Citizen.CreateThread(function()
 		if _menuPool ~= nil then
 			_menuPool:ProcessMenus()
 		end
-		
+
 		Citizen.Wait(0)
 	end
 end)
@@ -2165,7 +2168,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		plyPed = PlayerPedId()
-		
+
 		if IsControlJustReleased(0, Config.stopAnim.clavier) and GetLastInputMethod(2) and not isDead then
 			handsup, pointing = false, false
 			ClearPedTasks(plyPed)
@@ -2214,7 +2217,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-		
+
 		Citizen.Wait(0)
 	end
 end)
