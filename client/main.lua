@@ -2097,24 +2097,23 @@ Citizen.CreateThread(function()
 				Citizen.Wait(5)
         keypressTimer = keypressTimer + 5
 				if keypressTimer > keypressThreshold then
+					if mainMenu ~= nil and not mainMenu:Visible() then
+						ESX.TriggerServerCallback('KorioZ-PersonalMenu:Admin_getUsergroup', function(playerGroup)
+							ESX.PlayerData = ESX.GetPlayerData()
+							GeneratePersonalMenu(playerGroup)
+							mainMenu:Visible(true)
+							Citizen.Wait(10)
+						end)
+					end
 					break
 				end
 			end
 	  end
 
     -- you need to check for it here: keypressTimer > keypressThreshold
-		if IsControlJustReleased(0, Config.Menu.clavier) and not isDead and keypressTimer > keypressThreshold then
-------------------------------------------------------------------------------------------
-			if mainMenu ~= nil and not mainMenu:Visible() then
-				ESX.TriggerServerCallback('KorioZ-PersonalMenu:Admin_getUsergroup', function(playerGroup)
-					ESX.PlayerData = ESX.GetPlayerData()
-					GeneratePersonalMenu(playerGroup)
-					mainMenu:Visible(true)
-					Citizen.Wait(10)
-				end)
-			end
-		end
+		--if IsControlJustReleased(0, Config.Menu.clavier) and not isDead and keypressTimer > keypressThreshold then
 
+		--end
 		Citizen.Wait(0)
 	end
 end)
