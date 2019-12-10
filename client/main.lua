@@ -2109,7 +2109,7 @@ Citizen.CreateThread(function()
 				end
 			end
 	  end
-		if IsControlJustReleased(2, 0) then --and mainMenu == nil and mainMenu:Visible() then
+		if IsDisabledControlJustReleased(0, 0) then --and mainMenu == nil and mainMenu:Visible() then
 			print("Pushed BACK -- Exit Menu")
 			--_menuPool:CloseAllMenus()
 	  end
