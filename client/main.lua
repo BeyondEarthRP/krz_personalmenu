@@ -2118,7 +2118,7 @@ Citizen.CreateThread(function()
 						DisableControlAction(0, 236, true)
 						DisableControlAction(1, 236, true)
 						DisableControlAction(2, 236, true)
-						Citizen.Wait(300)
+						Citizen.Wait(100)
 						_menuPool:CloseAllMenus()
 				end
 				Citizen.Wait(0)
