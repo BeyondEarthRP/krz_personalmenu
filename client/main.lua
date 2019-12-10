@@ -2104,6 +2104,8 @@ Citizen.CreateThread(function()
 							mainMenu:Visible(true)
 							Citizen.Wait(10)
 						end)
+					else
+						keypressTimer = 0
 					end
 					break
 				end
