@@ -2090,8 +2090,11 @@ local keypressThreshold = 70 -- each 100 is about 1 second ... 200 = ~2 Seconds
 -----------------------------
 Citizen.CreateThread(function()
 		while true do
+				if IsDisabledControlJustReleased(0, 0) and mainMenu:Visible() and keypressTimer == 0 then --and mainMenu == nil then
+					print("Pushed BACK -- Exit Menu")
+					_menuPool:CloseAllMenus()
+				end
 			  if IsControlJustPressed(0, Config.Menu.clavier) and not isDead then
-						keypressTimer = 0
 						while IsControlPressed(0, Config.Menu.clavier) do
 								Citizen.Wait(5)
 				        keypressTimer = keypressTimer + 5
@@ -2103,21 +2106,13 @@ Citizen.CreateThread(function()
 												Citizen.Wait(10)
 										end)
 										break
-								else
-										keypressTimer = 0
-								end
+							  end
 						end
+						while not IsDisabledControlJustReleased(0, Config.Menu.clavier) then
+						    Citizen.Wait(0)
+						end
+						keypressTimer = 0
 			  end
-
-				if IsDisabledControlJustReleased(0, 0) and mainMenu:Visible() and keypressTimer == 0 then --and mainMenu == nil then
-					print("Pushed BACK -- Exit Menu")
-					_menuPool:CloseAllMenus()
-			  end
-
-		    -- you need to check for it here: keypressTimer > keypressThreshold
-				--if IsControlJustReleased(0, Config.Menu.clavier) and not isDead and keypressTimer > keypressThreshold then
-
-				--end
 				Citizen.Wait(0)
 		end
 end)
