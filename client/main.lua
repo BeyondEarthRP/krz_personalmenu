@@ -2112,7 +2112,10 @@ Citizen.CreateThread(function()
 			  end
 				if IsDisabledControlJustPressed(0, 0) and mainMenu:Visible() and keypressTimer == 0 then --and mainMenu == nil then
 						print("Pushed BACK -- Exit Menu")
-						DisableControlAction(2, 0, true)
+						DisableControlAction(1, 0, true)
+						if IsControlJustPressed(0, 0) then print "saw 0, 0 Just Pressed"
+						if IsControlJustPressed(1, 0) then print "saw 1, 0 Just Pressed"
+						if IsControlJustPressed(2, 0) then print "saw 2, 0 Just Pressed"
 						Citizen.Wait(10)
 						_menuPool:CloseAllMenus()
 				end
