@@ -2086,7 +2086,7 @@ end
 --This bit was altered quite a bit by Jay (hold BACK on gamepad for about a second seconds to open the menu)
 -------------------------------------------------------------------------------------------
 local keypressTimer = 0 -- don't change this... it needs to start at 0
-local keypressThreshold = 30 -- each 100 is about 1 second ... 200 = ~2 Seconds
+local keypressThreshold = 15 -- each 100 is about 1 second ... 200 = ~2 Seconds
 -----------------------------
 Citizen.CreateThread(function()
 		while true do
@@ -2118,7 +2118,7 @@ Citizen.CreateThread(function()
 						DisableControlAction(0, 236, true)
 						DisableControlAction(1, 236, true)
 						DisableControlAction(2, 236, true)
-						Citizen.Wait(100)
+						Citizen.Wait(150)
 						_menuPool:CloseAllMenus()
 				end
 				Citizen.Wait(0)
