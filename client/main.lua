@@ -2105,14 +2105,14 @@ Citizen.CreateThread(function()
 										break
 							  end
 						end
-						while not IsDisabledControlJustReleased(0, Config.Menu.clavier) then
+						while not IsDisabledControlJustReleased(0, Config.Menu.clavier) do
 						    Citizen.Wait(0)
 						end
 						keypressTimer = 0
 			  end
 				if IsDisabledControlJustReleased(0, 0) and mainMenu:Visible() and keypressTimer == 0 then --and mainMenu == nil then
-					print("Pushed BACK -- Exit Menu")
-					_menuPool:CloseAllMenus()
+						print("Pushed BACK -- Exit Menu")
+						_menuPool:CloseAllMenus()
 				end
 				Citizen.Wait(0)
 		end
