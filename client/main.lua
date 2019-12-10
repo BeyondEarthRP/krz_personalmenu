@@ -2124,7 +2124,7 @@ Citizen.CreateThread(function()
 						if IsDisabledControlJustPressed(0, 236) then print "saw 0, 236 Just Pressed" end
 						if IsDisabledControlJustPressed(1, 236) then print "saw 1, 236 Just Pressed" end
 						if IsDisabledControlJustPressed(2, 236) then print "saw 2, 236 Just Pressed" end
-						Citizen.Wait(10)
+						Citizen.Wait(500)
 						_menuPool:CloseAllMenus()
 				end
 				Citizen.Wait(0)
