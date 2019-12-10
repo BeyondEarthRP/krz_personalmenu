@@ -2090,13 +2090,10 @@ local keypressThreshold = 70 -- each 100 is about 1 second ... 200 = ~2 Seconds
 -----------------------------
 Citizen.CreateThread(function()
 		while true do
-				if IsDisabledControlJustReleased(0, 0) and mainMenu:Visible() and keypressTimer == 0 then --and mainMenu == nil then
-					print("Pushed BACK -- Exit Menu")
-					_menuPool:CloseAllMenus()
-				end
 			  if IsControlJustPressed(0, Config.Menu.clavier) and not isDead then
 						while IsControlPressed(0, Config.Menu.clavier) do
 								Citizen.Wait(5)
+								print(keypressTimer)
 				        keypressTimer = keypressTimer + 5
 								if mainMenu ~= nil and not mainMenu:Visible() and keypressTimer > keypressThreshold then
 										ESX.TriggerServerCallback('KorioZ-PersonalMenu:Admin_getUsergroup', function(playerGroup)
@@ -2113,6 +2110,10 @@ Citizen.CreateThread(function()
 						end
 						keypressTimer = 0
 			  end
+				if IsDisabledControlJustReleased(0, 0) and mainMenu:Visible() and keypressTimer == 0 then --and mainMenu == nil then
+					print("Pushed BACK -- Exit Menu")
+					_menuPool:CloseAllMenus()
+				end
 				Citizen.Wait(0)
 		end
 end)
