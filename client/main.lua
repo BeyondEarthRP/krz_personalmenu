@@ -2086,7 +2086,7 @@ end
 --This bit was added by Jay (hold BACK on gamepad for 2ish seconds to open the menu)
 -------------------------------------------------------------------------------------------
 local keypressTimer = 0 -- don't change this... it needs to start at 0
-local keypressThreshold = 200 -- each 100 is about 1 second ... 200 = ~2 Seconds
+local keypressThreshold = 100 -- each 100 is about 1 second ... 200 = ~2 Seconds
 -----------------------------
 Citizen.CreateThread(function()
 ----------------------------- continuing jay's changes ------------------------------------
