@@ -33,7 +33,7 @@ Config.pointing = {
 }
 
 Config.stopAnim = {
-	clavier = Keys['X']
+	clavier = Keys['R'] --Keys['X']
 }
 
 Config.crouch = {

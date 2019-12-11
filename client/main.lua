@@ -446,10 +446,12 @@ function startAttitude(lib, anim)
 	end)
 end
 
+local animated = false
 function startAnim(lib, anim)
 	ESX.Streaming.RequestAnimDict(lib, function()
 		TaskPlayAnim(plyPed, lib, anim, 8.0, -8.0, -1, 0, 0, false, false, false)
 	end)
+	animated = true
 end
 
 function startAnimAction(lib, anim)
@@ -460,6 +462,7 @@ end
 
 function startScenario(anim)
 	TaskStartScenarioInPlace(plyPed, anim, 0, false)
+	animated = true
 end
 
 function AddMenuInventoryMenu(menu)
@@ -2085,17 +2088,17 @@ end
 ------------------------------------------------------------------------------------------
 --This bit was altered quite a bit by Jay (hold BACK on gamepad for about a second seconds to open the menu)
 -------------------------------------------------------------------------------------------
-local keypressTimer = 0 -- don't change this... it needs to start at 0
-local keypressThreshold = 15 -- each 100 is about 1 second ... 200 = ~2 Seconds
+local menu_keypressTimer = 0 -- don't change this... it needs to start at 0
+local menu_keypressThreshold = 15 -- each 100 is about 1 second ... 200 = ~2 Seconds
 -----------------------------
 Citizen.CreateThread(function()
 		while true do
 			  if IsControlJustPressed(0, Config.Menu.clavier) and not isDead then
 						while IsControlPressed(0, Config.Menu.clavier) do
 								Citizen.Wait(5)
-								print(keypressTimer)
-				        keypressTimer = keypressTimer + 5
-								if mainMenu ~= nil and not mainMenu:Visible() and keypressTimer > keypressThreshold then
+								print(menu_keypressTimer)
+				        menu_keypressTimer = menu_keypressTimer + 5
+								if mainMenu ~= nil and not mainMenu:Visible() and menu_keypressTimer > menu_keypressThreshold then
 										ESX.TriggerServerCallback('KorioZ-PersonalMenu:Admin_getUsergroup', function(playerGroup)
 												ESX.PlayerData = ESX.GetPlayerData()
 												GeneratePersonalMenu(playerGroup)
@@ -2108,9 +2111,9 @@ Citizen.CreateThread(function()
 						while not IsDisabledControlJustReleased(0, Config.Menu.clavier) do
 						    Citizen.Wait(0)
 						end
-						keypressTimer = 0
+						menu_keypressTimer = 0
 			  end
-				if IsDisabledControlJustPressed(0, 0) and mainMenu:Visible() and keypressTimer == 0 then --and mainMenu == nil then
+				if IsDisabledControlJustPressed(0, 0) and mainMenu:Visible() and menu_keypressTimer == 0 then --and mainMenu == nil then
 						print("Pushed BACK -- Exit Menu")
 						DisableControlAction(0, 0, true)
 						DisableControlAction(1, 0, true)
@@ -2171,14 +2174,35 @@ Citizen.CreateThread(function()
 	end
 end)
 
+local stopAnim_keypressTimer = 0
+local stopAnim_keypressThreshold = 30
 Citizen.CreateThread(function()
 	while true do
 		plyPed = PlayerPedId()
 
-		if IsControlJustReleased(0, Config.stopAnim.clavier) and GetLastInputMethod(2) and not isDead then
-			handsup, pointing = false, false
-			ClearPedTasks(plyPed)
-		end
+		if animated or handsup or pointing then
+				if IsControlJustPressed(0, Config.stopAnim.clavier) and not isDead then
+						while IsControlPressed(0, Config.stopAnim.clavier) do
+								Citizen.Wait(5)
+								print(stopAnim_keypressTimer)
+								stopAnim_keypressTimer = stopAnim_keypressTimer + 5
+								if stopAnim_keypressTimer > stopAnim_keypressThreshold then
+										handsup, pointing = false, false
+										ClearPedTasks(plyPed)
+										break
+								end
+						end
+						while not IsDisabledControlJustReleased(0, Config.stopAnim.clavier) do
+								Citizen.Wait(0)
+						end
+						stopAnim_keypressTimer = 0
+			  end
+	  end
+
+		--if IsControlJustReleased(0, Config.stopAnim.clavier) and GetLastInputMethod(2) and not isDead then
+		--  handsup, pointing = false, false
+		--	ClearPedTasks(plyPed)
+		--end
 
 		if IsControlPressed(1, Config.TPMarker.clavier1) and IsControlJustReleased(1, Config.TPMarker.clavier2) and GetLastInputMethod(2) and not isDead then
 			ESX.TriggerServerCallback('KorioZ-PersonalMenu:Admin_getUsergroup', function(playerGroup)
