@@ -2096,7 +2096,6 @@ Citizen.CreateThread(function()
 			  if IsControlJustPressed(0, Config.Menu.clavier) and not isDead then
 						while IsControlPressed(0, Config.Menu.clavier) do
 								Citizen.Wait(5)
-								print(menu_keypressTimer)
 				        menu_keypressTimer = menu_keypressTimer + 5
 								if mainMenu ~= nil and not mainMenu:Visible() and menu_keypressTimer > menu_keypressThreshold then
 										ESX.TriggerServerCallback('KorioZ-PersonalMenu:Admin_getUsergroup', function(playerGroup)
@@ -2184,10 +2183,9 @@ Citizen.CreateThread(function()
 				if IsControlJustPressed(0, Config.stopAnim.clavier) and not isDead then
 						while IsControlPressed(0, Config.stopAnim.clavier) do
 								Citizen.Wait(5)
-								print(stopAnim_keypressTimer)
 								stopAnim_keypressTimer = stopAnim_keypressTimer + 5
 								if stopAnim_keypressTimer > stopAnim_keypressThreshold then
-										handsup, pointing = false, false
+										animated, handsup, pointing = false, false, false
 										ClearPedTasks(plyPed)
 										break
 								end
